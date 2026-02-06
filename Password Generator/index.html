@@ -35,7 +35,8 @@
             text-align: center;
             font-family: 'Courier New';
         }
-        .input-container{
+
+        .input-container {
             border: 2px solid rgb(128, 128, 208);
             background: white;
             border-radius: 10px;
@@ -43,9 +44,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 10px 0 10px;
-            
+
 
         }
+
         input {
             padding: 10px;
             width: 300px;
@@ -54,15 +56,18 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             border: none;
             border-radius: 10px;
-            
+
         }
-        span{
+
+        i {
             cursor: pointer;
             color: rgb(150, 145, 145);
         }
-        span:hover{
+
+        i:hover {
             color: black;
         }
+
         button {
             width: 200px;
             padding: 10px;
@@ -82,14 +87,33 @@
         }
 
         .alert-container {
-            color: white;
+            position: fixed;
+            color: rgb(77, 77, 77);
             background: rgb(143, 222, 143);
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            width: 300px;
+            height: 50px;
+            right: 20px;
+            bottom: 10px;
+            box-shadow: 0 4px 8px black;
+            transition: 0.4s;
 
+        }
+
+        .active.alert-container {
+            right: -400px;
+            text-align: center;
         }
 
         .alert-container p {
             font-size: 14px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            font-family: sans-serif;
         }
     </style>
 </head>
@@ -100,15 +124,69 @@
             <h1>Random Password Generator</h1>
             <div class="input-container">
                 <input type="text" id="password-txt" placeholder="Create Password" readonly>
-                <span><i class="fa-regular fa-copy"></i></span>
+                <i class="fa-regular fa-copy"></i>
             </div>
             <button id="btn-generate">Generate</button>
-            <div class="alert-container">
+            <div class="alert-container ">
                 <p id="password-alert"></p>
             </div>
         </div>
     </div>
-   
+    <script>
+        const btn = document.getElementById("btn-generate");
+        const txt = document.getElementById("password-txt");
+
+
+
+        btn.addEventListener("click", () => {
+            createPassword();
+
+        })
+        const alert = document.querySelector(".alert-container");
+        // function createPassword
+
+        function createPassword() {
+            const chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%*+-=/?.<>[]";
+            const passwordLengnth = 8;
+            let password = "";
+            for (let i = 0; i <= passwordLengnth; i++) {
+                const randomNum = Math.floor(Math.random() * chars.length);
+                password += chars.substring(randomNum, randomNum + 1);
+
+
+
+            }
+            txt.value = password;
+            alert.innerText = password + " copied";
+
+        }
+        const copy = document.querySelector(".fa-copy");
+
+
+        copy.addEventListener("click", () => {
+            copyPassword();
+            if (txt.value !== "") {
+                alert.classList.remove("active");
+
+                setTimeout(() => {
+                    alert.classList.add("active")
+                }, 2000);
+            }
+        });
+
+        // function copyPassword
+
+        function copyPassword() {
+            txt.select();
+            txt.setSelectionRange(0, 9999);
+            navigator.clipboard.writeText(txt.value);
+
+
+
+
+        }
+
+    </script>
 </body>
 
 </html>
